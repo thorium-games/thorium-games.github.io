@@ -46,7 +46,7 @@ body {
 }
 
 .won .player {
-    box-shadow: -4px -7px 8px white, -4px -7px 8px white;
+    background: rgb(41, 102, 49);
 }
 
 .game {
