@@ -282,7 +282,7 @@ Coin.prototype.update = function(time) {
 };
 
 var playerXSpeed = 10;
-var gravity = 1;
+var gravity = 30;
 var jumpSpeed = 20;
 
 Player.prototype.update = function(time, state, keys) {
