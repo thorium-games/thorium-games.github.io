@@ -111,7 +111,7 @@ var Coin = class Coin {
     }
 }
 
-Coin.prototype.size = new Vec(0.6, 0.6);
+Coin.prototype.size = new Vec(0.8, 0.8);
 
 var levelChars = {
     ".": "empty",
@@ -271,8 +271,8 @@ Lava.prototype.update = function(time, state) {
     }
 };
 
-var wobbleSpeed = 12,
-    wobbleDist = 0.1;
+var wobbleSpeed = 8,
+    wobbleDist = 0.15;
 
 Coin.prototype.update = function(time) {
     let wobble = this.wobble + time * wobbleSpeed;
@@ -281,9 +281,9 @@ Coin.prototype.update = function(time) {
         this.basePos, wobble);
 };
 
-var playerXSpeed = 7;
-var gravity = 30;
-var jumpSpeed = 17;
+var playerXSpeed = 10;
+var gravity = 1;
+var jumpSpeed = 20;
 
 Player.prototype.update = function(time, state, keys) {
     let xSpeed = 0;
