@@ -1,212 +1,83 @@
-let tutorialPlan = `
-....................
-..#................#..
-..#..............=.#..
-..#.........o.o....#..
-..#.@......#####...#..
-..#####............#..
-......#++++++++++++#..
-......##############..
-......................`;
+var navBar, navListItem, navItem; // variables for the navigation bar
+var homeDiv, homeTitle, homeButton, homeArrow, homeDivSpace; // variables for the home/splash page
+var settingsDiv, innerSettingsDiv, settingsTitle, settingsButton, settingsArrow, // variables for the settings page
+    settingsTable, settingsRow, settingsCell1, settingsCell2, settingsDescription,
+    settingsButton, settingsMultiplayer;
+var aboutDiv, innerAboutDiv, aboutTitle, aboutTitle2, aboutParagraph, aboutTable, // variables for the about page
+    aboutRow, aboutCell1, aboutCell2, aboutSubtitle, aboutSubparagraph;
+var winDiv, innerWinDiv, winTitle, winTable, winRow, winCell1, winCell2, winParagraph, // variables for the win page
+    winSecretWordTitle, winWordNode, winButtonAgain, winButtonEnd;
+var loseDiv, innerLoseDiv, loseTitle, loseTable, loseRow, loseCell1, loseCell2, loseParagraph, // variables for the lose page
+    loseSecretWordTitle, loseWordNode, loseButtonAgain, loseButtonEnd;
+var endDiv, innerEndDiv, endTitle, endTable, endRow, endCell1, endCell2, endParagraph, // variables for the end page
+    endStatsButton, endAboutButton;
+var statsDiv, innerStatsDiv, statsTable, statsRow, statsCell1, statsCell2, statsCell3, // variables for the stats page
+    statsTitle, statsRatioPara, statsRatioTitle, statsRatio, statsWinPara, statsWinTitle,
+    statsWin, statsLosePara, statsLoseTitle, statsLose;
+var loadingDiv, loadingDivSpace; // variables for the loading div (hangman moving across screen between pages)
+var category, secretWord, blankWordList; // variables related to the secret word
+var allowedGuesses, wrongGuesses, remainingGuesses, timeLeft, timer, // variables related to the win/loss conditions of the game
+    wins = 0,
+    losses = 0,
+    total = 0;
+var thirdRow, generalCell, inputForm, fullGuess, submitGuess, timerContainer, timerValue, // variables for the game page
+    remainingGuessesContainer, remainingGuesses, guessedContainer, guessedNode, hintButtonNode,
+    secretWordCell, secretWordContainer, secretWordNode, gameTable, letterCount, hintButton,
+    randomLetter, hintOver;
+var bgAudio, bgAudioFile, wrongAudio, wrongAudioFile, rightAudio, rightAudioFile, winAudio, // variables for audio files
+    winAudioFile, loseAudio, loseAudioFile;
 
-class Level {
-    constructor(plan) {
-        let rows = plan.trim().split("\n").map(l => [...l]);
-        this.height = rows.length;
-        this.width = rows[0].length;
-        this.startActors = [];
+var body = document.createElement("center");
+document.body.appendChild(body);
 
-        this.rows = rows.map((row, y) => {
-            return row.map((ch, x) => {
-                let type = levelChars[ch];
-                if (typeof type == "string") return type;
-                this.startActors.push(
-                    type.create(new Vec(x, y), ch));
-                return "empty";
-            });
-        });
+// top navigation bar
+navBar = document.createElement("ul");
+navBar.className = "header"
+
+navListItem = document.createElement("li");
+navListItem.className = "navLogo";
+
+navItem = document.createElement("img"); // header image fixed on the left side of the page
+navItem.setAttribute("src", "assets/images/branding/logo.png");
+navItem.setAttribute("height", "35px");
+navItem.setAttribute("style", "float: left; cursor: pointer;");
+navItem.addEventListener("click", showHome)
+
+navBar.appendChild(navListItem);
+navListItem.appendChild(navItem);
+
+for (let navCounter = 0; navCounter < 4; navCounter++) { // creating all nav bar items as list items
+    navListItem = document.createElement("li");
+    navItem = document.createElement("a");
+    navBar.appendChild(navListItem);
+    navListItem.appendChild(navItem);
+
+    switch (navCounter) {
+        case 0:
+            navItem.appendChild(document.createTextNode("home"));
+            navItem.addEventListener("click", showHome);
+            break;
+        case 1:
+            navItem.appendChild(document.createTextNode("settings"));
+            navItem.addEventListener("click", showSettings);
+            break;
+        case 2:
+            navItem.appendChild(document.createTextNode("game"));
+            navItem.addEventListener("click", showGame);
+            break;
+        default:
+            navItem.appendChild(document.createTextNode("about"));
+            navItem.addEventListener("click", showAbout);
+            break;
     }
 }
 
-class State {
-    constructor(level, actors, status) {
-        this.level = level;
-        this.actors = actors;
-        this.status = status;
-    }
+body.appendChild(navBar);
 
-    static start(level) {
-        return new State(level, level.StartActors, "playing");
-    }
+function showHome() {};
 
-    get player() {
-        return this.actors.find(a => a.type == "player");
-    }
-}
+function showSettings() {};
 
-class Vec {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
+function showGame() {};
 
-    plus(other) {
-        return new Vec(this.x + other.x, this.y + other.y);
-    }
-
-    times(factor) {
-        return new Vec(this.x * factor, this.y * factor);
-    }
-}
-
-class Player {
-    constructor(pos, speed) {
-        this.pos = pos;
-        this.speed = speed;
-    }
-
-    get type() { return "player"; }
-
-    static create(pos) {
-        return new Player(pos.plus(new Vec(0, -0.5)),
-            new Vec(0, 0));
-    }
-}
-
-Player.prototype.size = new Vec(0.8, 1.5);
-
-
-class Lava {
-    constructor(pos, speed, reset) {
-        this.pos = pos;
-        this.speed = speed;
-        this.reset = reset;
-    }
-
-    get type() { return "lava"; }
-
-    static create(pos, ch) {
-        if (ch == "=") {
-            return new Lava(pos, new Vec(2, 0));
-        } else if (ch == "|") {
-            return new Lava(pos, new Vec(0, 2));
-        } else if (ch == "v") {
-            return new Lava(pos, new Vec(0, 3), pos);
-        }
-    }
-}
-
-Lava.prototype.size = new Vec(1, 1);
-
-class Coin {
-    constructor(pos, basePos, wobble) {
-        this.pos = pos;
-        this.basePos = basePos;
-        this.wobble = wobble;
-    }
-
-    get type() { return "coin"; }
-
-    static create(pos) {
-        let basePos = pos.plus(new Vec(0.2, 0.1));
-        return new Coin(basePos, basePos,
-            Math.random() * Math.PI * 2);
-    }
-}
-
-Coin.prototype.size = new Vec(0.6, 0.6);
-
-const levelChars = {
-    ".": "empty",
-    "#": "wall",
-    "+": "lava",
-    "@": Player,
-    "o": Coin,
-    "=": Lava,
-    "|": Lava,
-    "v": Lava
-};
-
-let simpleLevel = new Level(tutorialPlan);
-console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
-
-function elt(name, attrs, ...children) {
-    let dom = document.createElement(name);
-    for (let attr of Object.keys(attrs)) {
-        dom.setAttribute(attr, attrs[attr]);
-    }
-
-    for (let child of children) {
-        dom.appendChild(child);
-    }
-
-    return dom;
-}
-
-class DOMDisplay {
-    constructor(parent, level) {
-        this.dom = elt("div", { class: "game" }, drawGrid(level));
-        this.actorLayer = null;
-        parent.appendChild(this.dom);
-    }
-
-    clear() { this.dom.remove(); }
-}
-
-const scale = 20;
-
-function drawGrid(level) {
-    return elt("table", {
-        class: "background",
-        style: `width: ${level.width * scale}px`
-    }, ...level.rows.map(row =>
-        elt("tr", { style: `height: ${scale}px` },
-            ...row.map(type => elt("td", { class: type })))
-    ));
-}
-
-function drawActors(actors) {
-    return elt("div", {}, ...actors.map(actor => {
-        let rect = elt("div", { class: `actor ${actor.type}` });
-        rect.style.width = `${actor.size.x * scale}px`;
-        rect.style.height = `${actor.size.y * scale}px`;
-        rect.style.left = `${actor.pos.x * scale}px`;
-        rect.style.top = `${actor.pos.y * scale}px`;
-        return rect;
-    }));
-}
-
-DOMDisplay.prototype.syncState = function(state) {
-    if (this.actorLayer) this.actorLayer.remove();
-    this.actorLayer = drawActors(state.actors);
-    this.dom.appendChild(this.actorLayer);
-    this.dom.className = `game ${state.status}`;
-    this.scrollPlayerIntoView(state);
-};
-
-DOMDisplay.prototype.scrollPlayerIntoView = function(state) {
-    let width = this.dom.clientWidth;
-    let height = this.dom.clientHeight;
-    let margin = width / 3;
-
-    let left = this.dom.scrollLeft,
-        right = left + width;
-    let top = this.dom.scrollTop,
-        bottom = top + height;
-    let player = state.player;
-    let center = player.pos.plus(player.size.times(0.5))
-        .times(scale);
-
-    if (center.x < left + margin) {
-        this.dom.scrollLeft = center.x - margin;
-    } else if (center.x > right - margin) {
-        this.dom.scrollLeft = center.x + margin - width;
-    }
-    if (center.y < top + margin) {
-        this.dom.scrollTop = center.y - margin;
-    } else if (center.y > bottom - margin) {
-        this.dom.scrollTop = center.y + margin - height;
-    }
-};
-
-console.log("hi");
+function showAbout() {};

@@ -1,13 +1,6 @@
 /* importing Poppins and Source Sans Pro fonts for the website. */
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i');
-body {
-    color: #222121;
-    font-family: 'Source Sans Pro';
-    font-weight: 400;
-    background: rgb(52, 166, 251);
-}
-
 .alternative-color {
     color: #4139da;
 }
@@ -46,8 +39,26 @@ body {
     background: rgb(160, 64, 64);
 }
 
+@-webkit-keyframes gradientAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes gradientAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
 .won .player {
-    background: rgb(41, 102, 49);
+    animation: gradientAnimation 0.5s ease infinite;
 }
 
 .game {
@@ -55,4 +66,379 @@ body {
     max-width: 600px;
     max-height: 450px;
     position: relative;
+}
+
+
+/* hiding the scrollbar */
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* smooth scroll */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
+    color: #222121;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 15vw;
+    letter-spacing: 0.2em;
+}
+
+h2 {
+    font-size: 10vw;
+}
+
+h3 {
+    font-size: 5vw;
+}
+
+h4 {
+    font-size: 2vw;
+}
+
+p {
+    font-size: 1.1vw;
+    font-family: "source sans pro", sans-serif;
+    font-weight: 600;
+}
+
+img {
+    transition: 0.5s all;
+}
+
+.winDiv {
+    background-image: linear-gradient(270deg, #6dd5ed60, #56ab3f60, #a8e06360, #00cdac60);
+    background-size: 800% 800%;
+    -webkit-animation: gradientAnimation 6s ease infinite;
+    animation: gradientAnimation 6s ease infinite;
+}
+
+.loseDiv {
+    background-image: linear-gradient(270deg, #faaca860, #ff512f60, #dd247660, #ed213a60, #93291e60);
+    background-size: 1000% 1000%;
+    -webkit-animation: gradientAnimation 6s ease infinite;
+    animation: gradientAnimation 6s ease infinite;
+}
+
+.spaceDiv {
+    background-image: none;
+}
+
+.homeDiv {
+    background-image: url("images/branding/favicon.png");
+    animation: none;
+    background-size: auto 90%;
+    background-repeat: no-repeat;
+    -webkit-animation: gradientAnimation 16s ease infinite;
+    animation: gradientAnimation 16s ease infinite;
+    height: 100%;
+    width: 100%;
+    padding: none;
+    text-align: center;
+}
+
+.loadingDiv {
+    background-image: url("images/branding/favicon.png");
+    animation: none;
+    background-size: auto 95%;
+    background-repeat: no-repeat;
+    transform: scale(0, 0);
+    -webkit-animation: gradientAnimation 4s ease infinite;
+    animation: gradientAnimation 4s ease infinite;
+    border-radius: 0;
+    width: 80vw;
+    height: 0;
+    padding: none;
+    text-align: center;
+}
+
+.contentDiv {
+    background-image: none;
+    background-color: #f1f1f1;
+    width: 92.5%;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.hangmanDiv {
+    background-color: #f1f1f1;
+    background-image: url("images/hangman/0.png");
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 93.5%;
+    animation: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: visible;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    text-align: left;
+}
+
+select {
+    color: #222121;
+    width: auto;
+    font-family: 'source sans pro', sans-serif;
+    font-size: 1.2vw;
+    padding: 0.35em 0.6em;
+    margin-bottom: 0.5em;
+    outline: 0;
+    border: 1px solid #222121;
+    background-color: #00000000;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    border-radius: 0.7em;
+    text-align: center;
+    -webkit-appearance: none;
+}
+
+select:hover {
+    border: none;
+    background-image: linear-gradient( to right, rgba(227, 38, 54, 0.2), rgba(255, 68, 0, 0.2), rgba(254, 80, 45, 0.2), rgba(255, 140, 0, 0.2), rgba(227, 225, 0, 0.2), rgba(221, 227, 0, 0.2), rgba(86, 171, 47, 0.2), rgba(0, 205, 172, 0.2), rgba(71, 209, 204, 0.2), rgba(109, 213, 237, 0.2), rgba(0, 78, 146, 0.2), rgba(44, 62, 80, 0.2), rgba(97, 67, 133, 0.2), rgba(147, 112, 219, 0.2), rgba(221, 36, 118, 0.2), rgba(250, 172, 168, 0.2));
+    background-size: 3200%, 3200%;
+    box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.05);
+    -webkit-animation: gradientAnimation 10s ease infinite;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+input {
+    color: #222121;
+    width: auto;
+    font-family: 'source sans pro', sans-serif;
+    font-size: 1.2vw;
+    padding: 0.35em 0.6em;
+    margin-bottom: 0.5em;
+    outline: 0;
+    border: 1px solid #222121;
+    background-color: #00000000;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    border-radius: 0.7em;
+}
+
+input:hover {
+    border: none;
+    background-image: linear-gradient( to right, rgba(227, 38, 54, 0.2), rgba(255, 68, 0, 0.2), rgba(254, 80, 45, 0.2), rgba(255, 140, 0, 0.2), rgba(227, 225, 0, 0.2), rgba(221, 227, 0, 0.2), rgba(86, 171, 47, 0.2), rgba(0, 205, 172, 0.2), rgba(71, 209, 204, 0.2), rgba(109, 213, 237, 0.2), rgba(0, 78, 146, 0.2), rgba(44, 62, 80, 0.2), rgba(97, 67, 133, 0.2), rgba(147, 112, 219, 0.2), rgba(221, 36, 118, 0.2), rgba(250, 172, 168, 0.2));
+    background-size: 3200%, 3200%;
+    box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.05);
+    -webkit-animation: gradientAnimation 10s ease infinite;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+input:focus {
+    background-color: #2221211f;
+    background-image: none;
+    border: none;
+}
+
+::placeholder {
+    color: #222121;
+}
+
+button {
+    font-family: 'source sans pro';
+    font-size: 1.2vw;
+    padding: 0.7em 1.2em;
+    outline: 0;
+    font-weight: 600;
+    color: #222121;
+    border: 1px solid #222121;
+    background-color: #00000000;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    border-radius: 1em;
+}
+
+button:hover {
+    border: none;
+    background-image: linear-gradient( to right, rgba(227, 38, 54, 0.2), rgba(255, 68, 0, 0.2), rgba(254, 80, 45, 0.2), rgba(255, 140, 0, 0.2), rgba(227, 225, 0, 0.2), rgba(221, 227, 0, 0.2), rgba(86, 171, 47, 0.2), rgba(0, 205, 172, 0.2), rgba(71, 209, 204, 0.2), rgba(109, 213, 237, 0.2), rgba(0, 78, 146, 0.2), rgba(44, 62, 80, 0.2), rgba(97, 67, 133, 0.2), rgba(147, 112, 219, 0.2), rgba(221, 36, 118, 0.2), rgba(250, 172, 168, 0.2));
+    background-size: 3200%, 3200%;
+    box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.05);
+    -webkit-animation: gradientAnimation 10s ease infinite;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+button:active {
+    border-radius: 6em;
+}
+
+.gameInput {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 10em;
+}
+
+.gameInput:hover {
+    border: 1px solid #222121;
+}
+
+.gameInput:active {
+    border: 1px solid #222121;
+}
+
+.gameInput:focus {
+    border: 1px solid #222121;
+}
+
+.formButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0;
+    width: auto;
+    transform: translateX(-0em);
+    padding: 0.35em 0.6em;
+}
+
+.formButton:hover {
+    border: 1px solid #222121;
+    border-left: 0;
+}
+
+.formButton:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.homeButton {
+    border-radius: 50% 50%;
+    padding: 0.5em 1em;
+    width: auto;
+    border: none;
+}
+
+.homeButton:hover {
+    background-image: none;
+    box-shadow: none;
+}
+
+a {
+    font-family: 'source sans pro';
+    font-size: 0.9vw;
+    padding: 0.7em 1.2em;
+    width: 6em;
+    outline: 0;
+    font-weight: 600;
+    color: #222121;
+    background-color: #00000000;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    border-bottom: 0.2em solid #222121;
+}
+
+a:hover {
+    border: none;
+    background-image: linear-gradient( to right, rgba(227, 38, 54, 0.2), rgba(255, 68, 0, 0.2), rgba(254, 80, 45, 0.2), rgba(255, 140, 0, 0.2), rgba(227, 225, 0, 0.2), rgba(221, 227, 0, 0.2), rgba(86, 171, 47, 0.2), rgba(0, 205, 172, 0.2), rgba(71, 209, 204, 0.2), rgba(109, 213, 237, 0.2), rgba(0, 78, 146, 0.2), rgba(44, 62, 80, 0.2), rgba(97, 67, 133, 0.2), rgba(147, 112, 219, 0.2), rgba(221, 36, 118, 0.2), rgba(250, 172, 168, 0.2));
+    background-size: 3200%, 3200%;
+    box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.05);
+    -webkit-animation: gradientAnimation 10s ease infinite;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+a:active {
+    border-radius: 2em;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+li {
+    display: inline;
+    padding-right: 10px;
+}
+
+.header {
+    position: fixed;
+    background-color: #f1f1f188;
+    padding-top: 20px;
+    width: 100%;
+    margin-top: -1%;
+    z-index: 1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 10%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: none;
+    border-radius: 0;
+    text-align: center;
+}
+
+.modal-content {
+    background-color: #f1f1f1d3;
+    background-image: url("images/hangman/0.png");
+    width: 50%;
+    height: 10%;
+    padding: 5em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.15);
+    text-align: center;
+    border: none;
+}
+
+.modal input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 16em;
+}
+
+.modal input:hover {
+    border: 1px solid #222121;
+}
+
+.modal input:active {
+    border: 1px solid #222121;
+}
+
+.modal input:focus {
+    border: 1px solid #222121;
 }
