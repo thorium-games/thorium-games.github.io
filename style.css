@@ -392,11 +392,13 @@ li {
 
 .header {
     position: fixed;
-    background-color: #f1f1f188;
+    background-color: #ffffff88;
     padding-top: 20px;
     width: 100%;
     margin-top: -1%;
     z-index: 1;
+    font-weight: 600;
+    font-family: 'source sans pro';
 }
 
 .modal {
