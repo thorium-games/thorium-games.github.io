@@ -9,6 +9,7 @@
     background: rgb(52, 166, 251);
     table-layout: fixed;
     border-spacing: 0;
+    width: 100%:
 }
 
 .background td {
@@ -63,8 +64,8 @@
 
 .game {
     overflow: hidden;
-    max-width: 600px;
-    max-height: 450px;
+    max-width: 900px;
+    max-height: 675px;
     position: relative;
 }
 

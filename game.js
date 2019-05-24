@@ -147,7 +147,7 @@ var DOMDisplay = class DOMDisplay {
     clear() { this.dom.remove(); }
 }
 
-var scale = 20;
+var scale = 25;
 
 function drawGrid(level) {
     return elt("table", {
