@@ -13,11 +13,56 @@
 
 <body>
     <ul class="header">
-        <li>home</li>
+        <li style="height: 40px; float: left; cursor: pointer;"><img onclick="showAbout()" src="logo2.png" style="height: inherit; transform: translateY(1px) translateX(10px)"></li>
+        <li><a onclick="showHome()">home</a></li>
+        <li><a onclick="showGame()">our game</a></li>
+        <li><a onclick="showAbout()">about thorium games</a></li>
+        <li><a onclick="showTeam()">the team</a></li>
+        <li><a onclick="showContact()">contact us</a></li>
     </ul>
-    <script src="main.js"></script>
 
-    <script>
-        runGame(GAME_LEVELS, DOMDisplay);
-    </script>
+    <div>
+        <br><br>
+    </div>
+
+    <div class="splash" id="splashDiv">
+        <h1><span class="alternative-color">th</span>orium <span><br></span>games</h1>
+        <img class="arrow" src="down-arrow.png" style="height: 25px; padding-bottom: 2em; cursor: pointer;">
+    </div>
+
+    <div>
+        <br><br><br>
+    </div>
+
+    <div class="content-block" id="gameDiv">
+        <h2>game</h2>
+    </div>
+
+    <div>
+        <br><br><br>
+    </div>
+
+    <div class="content-block" id="aboutDiv">
+        <h2>about</h2>
+    </div>
+
+    <div>
+        <br><br><br>
+    </div>
+
+    <div class="content-block" id="teamDiv">
+        <h2>team</h2>
+    </div>
+
+    <div>
+        <br><br><br>
+    </div>
+
+    <div class="content-block" id="contactDiv">
+        <h2>contact</h2>
+    </div>
+
+    <script src="main.js"></script>
 </body>
+
+</html>
