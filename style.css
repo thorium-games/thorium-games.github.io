@@ -39,9 +39,9 @@
 /* CSS design that is uniform for the entire website on the body */
 
 :root {
-    --main-color: #394d9d;
+    /* --main-color: #394d9d; */
     /* --main-color: #ff6464; */
-    /* --main-color: #34a6fb; */
+    --main-color: #34a6fb;
 }
 
 html {
