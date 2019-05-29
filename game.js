@@ -329,7 +329,7 @@ function runAnimation(frameFunc) {
 
     function frame(time) {
         if (lastTime != null) {
-            let timeStep = Math.min(time - lastTime, 100) / 1000;
+            let timeStep = Math.min(time - lastTime, 500) / 1000;
             if (frameFunc(timeStep) === false) return;
         }
         lastTime = time;
@@ -339,7 +339,7 @@ function runAnimation(frameFunc) {
 }
 
 function runLevel(level, Display) {
-    let display = new Display(document.body, level);
+    let display = new Display(gameDiv, level);
     let state = State.start(level);
     let ending = 1;
     return new Promise(resolve => {

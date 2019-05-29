@@ -39,9 +39,9 @@
 /* CSS design that is uniform for the entire website on the body */
 
 :root {
-    /* --main-color: #394d9d; */
     /* --main-color: #ff6464; */
-    --main-color: #34a6fb;
+    /* --main-color: #34a6fb; */
+        --main-color: #394d9d;
 }
 
 html {
@@ -61,6 +61,7 @@ body {
     font-weight: 500;
     font-size: 1.5vw;
     color: #222121;
+    user-select: none;
 }
 
 .splash {
