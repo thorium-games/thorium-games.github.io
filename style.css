@@ -226,6 +226,14 @@ li {
     background: rgb(241, 229, 89);
 }
 
+.powerup {
+    background: green;
+}
+
+.monster {
+    background: purple;
+}
+
 .player {
     background: rgb(64, 64, 64);
 }
@@ -234,26 +242,8 @@ li {
     background: rgb(160, 64, 64);
 }
 
-@-webkit-keyframes gradientAnimation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(180deg);
-    }
-}
-
-@keyframes gradientAnimation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(180deg);
-    }
-}
-
 .won .player {
-    animation: gradientAnimation 0.5s ease infinite;
+    box-shadow: -4px -7px 8px white, 4px -7px 8px white;
 }
 
 .game {

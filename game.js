@@ -1,13 +1,31 @@
-var simpleLevelPlan = `
-......................
-..#................#..
-..#..............=.#..
-..#.........o.o....#..
-..#.@......#####...#..
-..#####............#..
-......#++++++++++++#..
-......##############..
-......................`;
+var bgAudio = document.createElement("audio");
+var retroMusic = document.createElement("source");
+retroMusic.setAttribute("src", "bg.mp3");
+retroMusic.setAttribute("type", "audio/mpeg");
+bgAudio.appendChild(retroMusic);
+bgAudio.volume = 0.275;
+bgAudio.play();
+bgAudio.loop = true;
+
+var coinCollected = document.createElement("audio");
+var coinSound = document.createElement("source");
+coinSound.setAttribute("src", "coin.wav");
+coinSound.setAttribute("type", "audio/wav");
+coinCollected.appendChild(coinSound);
+
+var gameLost = document.createElement("audio");
+var loseSound = document.createElement("source");
+loseSound.setAttribute("src", "lose.wav");
+loseSound.setAttribute("type", "audio/wav");
+gameLost.appendChild(loseSound);
+
+var gameWon = document.createElement("audio");
+var winSound = document.createElement("source");
+winSound.setAttribute("src", "win.wav");
+winSound.setAttribute("type", "audio/wav");
+gameWon.appendChild(winSound);
+
+var deaths = 0;
 
 var Level = class Level {
     constructor(plan) {
@@ -73,6 +91,8 @@ var Player = class Player {
 
 Player.prototype.size = new Vec(0.8, 1.5);
 
+var lavaSpeed = 2.5;
+
 var Lava = class Lava {
     constructor(pos, speed, reset) {
         this.pos = pos;
@@ -84,16 +104,108 @@ var Lava = class Lava {
 
     static create(pos, ch) {
         if (ch == "=") {
-            return new Lava(pos, new Vec(2, 0));
+            return new Lava(pos, new Vec(lavaSpeed, 0));
         } else if (ch == "|") {
-            return new Lava(pos, new Vec(0, 2));
+            return new Lava(pos, new Vec(0, lavaSpeed));
         } else if (ch == "v") {
-            return new Lava(pos, new Vec(0, 3), pos);
+            return new Lava(pos, new Vec(0, lavaSpeed), pos);
         }
     }
 }
 
 Lava.prototype.size = new Vec(1, 1);
+
+var monsterSpeed = lavaSpeed * 2.5;
+
+class Powerup {
+    constructor(pos, chtype) {
+        this.pos = pos;
+        this.chtype = chtype;
+    }
+
+    get type() { return "powerup"; }
+
+    static create(pos, ch) {
+        this.chtype = ch;
+        console.log(this.chtype);
+        return new Powerup(pos.plus(new Vec(0, -1)), this.chtype);
+    }
+
+    update() {
+        return new Powerup(this.pos, this.chtype);
+    }
+
+    collide(state) {
+        let filtered = state.actors.filter(a => a != this);
+        if (this.chtype == "s") {
+            Player.prototype.size = new Vec(0.4, 0.75);
+        } else if (this.chtype == "l") {
+            Player.prototype.size = new Vec(1.6, 3);
+        } else if (this.chtype == "p") {
+            lavaSpeed = 1;
+        } else if (this.chtype == "g") {
+            gravity = 26;
+        } else if (this.chtype == "f") {
+            playerXSpeed = 15;
+        } else if (this.chtype == "P") {
+            monsterSpeed = lavaSpeed;
+        }
+
+        return new State(state.level, filtered, state.status);
+    }
+}
+
+Powerup.prototype.size = new Vec(0.75, 0.75);
+
+class Monster {
+    constructor(pos, speed, chase) {
+        this.pos = pos;
+        this.speed = speed;
+        this.chase = chase;
+    }
+
+    get type() { return "monster"; }
+
+    static create(pos, ch) {
+        if (ch == 'm') {
+            // monster that moves back and forth
+            return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), false);
+        } else { // 'M'
+            // monster that chases player
+            return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), true);
+        }
+    }
+
+    update(time, state) {
+        let newPos;
+        if (this.chase) {
+            if (state.player.pos.x < this.pos.x) {
+                this.speed = new Vec(-monsterSpeed, 0);
+            } else {
+                this.speed = new Vec(monsterSpeed, 0);
+            }
+        }
+        newPos = this.pos.plus(this.speed.times(time));
+        if (!state.level.touches(newPos, this.size, "wall")) {
+            return new Monster(newPos, this.speed, this.chase);
+        } else {
+            return new Monster(this.pos, this.speed.times(-1), this.chase);
+        }
+    }
+
+    collide(state) {
+        let player = state.player;
+        let monster = this;
+        if (monster.pos.y - player.pos.y > 1) {
+            let filtered = state.actors.filter(a => a != this);
+            return new State(state.level, filtered, state.status);
+        } else {
+            return new State(state.level, state.actors, 'lost');
+        }
+    }
+}
+
+Monster.prototype.size = new Vec(1.2, 2);
 
 var Coin = class Coin {
     constructor(pos, basePos, wobble) {
@@ -117,14 +229,21 @@ var levelChars = {
     ".": "empty",
     "#": "wall",
     "+": "lava",
+    "M": Monster,
+    "m": Monster,
+    "s": Powerup,
+    "l": Powerup,
+    "p": Powerup,
+    "g": Powerup,
+    "f": Powerup,
+    "P": Powerup,
     "@": Player,
     "o": Coin,
+    "P": Powerup,
     "=": Lava,
     "|": Lava,
     "v": Lava
 };
-
-var simpleLevel = new Level(simpleLevelPlan);
 
 function elt(name, attrs, ...children) {
     let dom = document.createElement(name);
@@ -255,8 +374,12 @@ Lava.prototype.collide = function(state) {
 
 Coin.prototype.collide = function(state) {
     let filtered = state.actors.filter(a => a != this);
+    coinCollected.play()
     let status = state.status;
-    if (!filtered.some(a => a.type == "coin")) status = "won";
+    if (!filtered.some(a => a.type == "coin")) {
+        gameWon.play();
+        status = "won";
+    }
     return new State(state.level, filtered, status);
 };
 
@@ -270,6 +393,14 @@ Lava.prototype.update = function(time, state) {
         return new Lava(this.pos, this.speed.times(-1));
     }
 };
+
+function resetVariables() {
+    Player.prototype.size = new Vec(0.8, 1.5);
+    lavaSpeed = 2.5;
+    monsterSpeed = lavaSpeed * 2.5;
+    gravity = 38;
+    playerXSpeed = 10;
+}
 
 var wobbleSpeed = 8,
     wobbleDist = 0.07;
@@ -287,8 +418,8 @@ var jumpSpeed = 20;
 
 Player.prototype.update = function(time, state, keys) {
     let xSpeed = 0;
-    if (keys.ArrowLeft) xSpeed -= playerXSpeed;
-    if (keys.ArrowRight) xSpeed += playerXSpeed;
+    if (keys.a) xSpeed -= playerXSpeed;
+    if (keys.d) xSpeed += playerXSpeed;
     let pos = this.pos;
     let movedX = pos.plus(new Vec(xSpeed * time, 0));
     if (!state.level.touches(movedX, this.size, "wall")) {
@@ -299,7 +430,7 @@ Player.prototype.update = function(time, state, keys) {
     let movedY = pos.plus(new Vec(0, ySpeed * time));
     if (!state.level.touches(movedY, this.size, "wall")) {
         pos = movedY;
-    } else if (keys.ArrowUp && ySpeed > 0) {
+    } else if (keys.w && ySpeed > 0) {
         ySpeed = -jumpSpeed;
     } else {
         ySpeed = 0;
@@ -322,7 +453,7 @@ function trackKeys(keys) {
 }
 
 var arrowKeys =
-    trackKeys(["ArrowLeft", "ArrowRight", "ArrowUp"]);
+    trackKeys(["a", "d", "w", "ArrowLeft", "ArrowRight", "ArrowUp"]);
 
 function runAnimation(frameFunc) {
     let lastTime = null;
@@ -345,6 +476,9 @@ function runLevel(level, Display) {
     return new Promise(resolve => {
         runAnimation(time => {
             state = state.update(time, arrowKeys);
+            if (state.status == "lost") {
+                gameLost.play();
+            }
             display.syncState(state);
             if (state.status == "playing") {
                 return true;
@@ -364,7 +498,14 @@ async function runGame(plans, Display) {
     for (let level = 0; level < plans.length;) {
         let status = await runLevel(new Level(plans[level]),
             Display);
-        if (status == "won") level++;
+        if (status == "won") {
+            level++;
+            resetVariables();
+        } else {
+            deaths++;
+            resetVariables();
+        }
     }
     console.log("You've won!");
 }
+d
