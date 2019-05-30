@@ -180,9 +180,9 @@ class Monster {
         let newPos;
         if (this.chase) {
             if (state.player.pos.x < this.pos.x) {
-                this.speed = new Vec(-monsterSpeed, gravity);
+                this.speed = new Vec(-monsterSpeed, 0);
             } else {
-                this.speed = new Vec(monsterSpeed, gravity);
+                this.speed = new Vec(monsterSpeed, 0);
             }
         }
         newPos = this.pos.plus(this.speed.times(time));
