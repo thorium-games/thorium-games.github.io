@@ -180,9 +180,9 @@ class Monster {
         let newPos;
         if (this.chase) {
             if (state.player.pos.x < this.pos.x) {
-                this.speed = new Vec(-monsterSpeed, 0);
+                this.speed = new Vec(-monsterSpeed, gravity);
             } else {
-                this.speed = new Vec(monsterSpeed, 0);
+                this.speed = new Vec(monsterSpeed, gravity);
             }
         }
         newPos = this.pos.plus(this.speed.times(time));
@@ -442,7 +442,6 @@ function trackKeys(keys) {
     let down = Object.create(null);
 
     function track(event) {
-        console.log(event.code);
         if (keys.includes(event.key)) {
             down[event.key] = event.type == "keydown";
             event.preventDefault();
