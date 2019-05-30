@@ -172,7 +172,7 @@ class Monster {
             return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), false);
         } else { // 'M'
             // monster that chases player
-            return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), true);
+            return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, -), true);
         }
     }
 
@@ -418,8 +418,8 @@ var jumpSpeed = 20;
 
 Player.prototype.update = function(time, state, keys) {
     let xSpeed = 0;
-    if (keys.a) xSpeed -= playerXSpeed;
-    if (keys.d) xSpeed += playerXSpeed;
+    if (keys.a || keys.ArrowLeft) xSpeed -= playerXSpeed;
+    if (keys.d || keys.ArrowRight) xSpeed += playerXSpeed;
     let pos = this.pos;
     let movedX = pos.plus(new Vec(xSpeed * time, 0));
     if (!state.level.touches(movedX, this.size, "wall")) {
@@ -430,7 +430,7 @@ Player.prototype.update = function(time, state, keys) {
     let movedY = pos.plus(new Vec(0, ySpeed * time));
     if (!state.level.touches(movedY, this.size, "wall")) {
         pos = movedY;
-    } else if (keys.w && ySpeed > 0) {
+    } else if ((keys.w && ySpeed > 0) || (keys.ArrowUp && ySpeed > 0) || ((keys.Space) && ySpeed > 0)) {
         ySpeed = -jumpSpeed;
     } else {
         ySpeed = 0;
@@ -442,8 +442,12 @@ function trackKeys(keys) {
     let down = Object.create(null);
 
     function track(event) {
+        console.log(event.code);
         if (keys.includes(event.key)) {
             down[event.key] = event.type == "keydown";
+            event.preventDefault();
+        } else if (keys.includes(event.code)) {
+            down[event.code] = event.type == "keydown";
             event.preventDefault();
         }
     }
@@ -453,7 +457,7 @@ function trackKeys(keys) {
 }
 
 var arrowKeys =
-    trackKeys(["a", "d", "w", "ArrowLeft", "ArrowRight", "ArrowUp"]);
+    trackKeys(["a", "d", "w", "ArrowLeft", "ArrowRight", "ArrowUp", "Space"]);
 
 function runAnimation(frameFunc) {
     let lastTime = null;
@@ -508,4 +512,3 @@ async function runGame(plans, Display) {
     }
     console.log("You've won!");
 }
-d
