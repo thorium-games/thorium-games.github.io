@@ -172,7 +172,7 @@ class Monster {
             return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), false);
         } else { // 'M'
             // monster that chases player
-            return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, -), true);
+            return new Monster(pos.plus(new Vec(0, -1)), new Vec(3, 0), true);
         }
     }
 
