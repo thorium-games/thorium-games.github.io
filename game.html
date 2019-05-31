@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-site-verification" content="LEBvIvjelkgtjge6Mn3UdsBqO287KFmjz6_ve6gVbUo">
+    <title>Thorium Games</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script src="game.js"></script>
+    <script src="levels.js"></script>
+</head>
+
+<body>
+    <ul class="header">
+        <li><a class="logo-nav-button" href="index.html">thorium games</a></li>
+        <li><a href="index.html">home page</a></li>
+        <li><a class="current-nav-button" class="game-nav-button" href="game.html">our game</a></li>
+        <li><a href="about.html">about thorium</a></li>
+        <li><a href="team.html">the team</a></li>
+        <li><a href="contact.html">contact us</a></li>
+    </ul>
+
+    <div class="heading-div">
+        <br><br><br><br>
+        <h2>red = ded</h2>
+        <button class="white-button">play now &darr;</button>
+        <br><br><br><br>
+    </div>
+
+    <div class="content-block">
+        <h3>about the game...</h3>
+        <p>Red = Dead is a novel 2D arcade platformer game developed by Thorium Games’s top team. Countless levels with deadly enemies and traps challenge the player as they navigate the hazardous world of GAME NAME. Available to play for free on our website,
+            Red = Dead delivers a captivating experience for players of all ages.
+        </p>
+
+        <h3>play now!</h3>
+        <div id="game-div" style="display: inline-block">
+            <script>
+                var gameDiv = document.getElementById("game-div");
+                runGame(GAME_LEVELS, DOMDisplay);
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
