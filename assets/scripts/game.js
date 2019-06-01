@@ -20,6 +20,12 @@ loseSound.setAttribute("src", "assets/audio/lose.wav");
 loseSound.setAttribute("type", "audio/wav");
 gameLost.appendChild(loseSound);
 
+var hitMonster = document.createElement("audio");
+var hitSound = document.createElement("source");
+hitSound.setAttribute("src", "assets/audio/hit.wav");
+hitSound.setAttribute("type", "audio/wav");
+hitMonster.appendChild(hitSound);
+
 var gameWon = document.createElement("audio");
 var winSound = document.createElement("source");
 winSound.setAttribute("src", "assets/audio/win.wav");
@@ -199,6 +205,7 @@ class Monster {
         let monster = this;
         if (monster.pos.y - player.pos.y > 1) {
             let filtered = state.actors.filter(a => a != this);
+            hitMonster.play();
             return new State(state.level, filtered, state.status);
         } else {
             return new State(state.level, state.actors, 'lost');
@@ -509,6 +516,8 @@ async function runGame(plans, Display) {
             deaths++;
             resetVariables();
         }
+        saveProgress();
+        updateLeaderboard();
         document.getElementById("stats").innerHTML = `deaths: ${deaths}, level: ${globalLevel}, ratio: ${(Math.round((globalLevel / (deaths)) * 100)) / 100} (current session)`
         level = globalLevel;
 

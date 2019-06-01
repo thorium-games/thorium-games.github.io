@@ -150,6 +150,8 @@ function saveProgress() {
         deaths: currentDeaths,
         ratio: (Math.round((currentLevel / (currentDeaths)) * 100)) / 100
     })
+
+    updateLeaderboard();
 }
 
 function resetProgress() {
