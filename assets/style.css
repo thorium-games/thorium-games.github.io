@@ -368,9 +368,10 @@ table h3 {
 
 .game {
     overflow: hidden;
-    max-width: 1344px;
-    max-height: 700px;
+    max-width: 1000px;
+    max-height: 750px;
     position: relative;
+    display: inline-block;
 }
 
 .actual-game-div {
