@@ -32,6 +32,27 @@
         <p>Founded in 2019, Thorium Games game studios has combined the creative and logic powers of top industry programers to become one of the most powerful and efficient companies in the gaming industry. With multiple projects underway, Thorium Games
             has currently focused its resources on developing GAME NAME. Many of the other exciting projects will be developed after this Red = Dead is complete.</p>
     </div>
+
+    <script src="/__/firebase/6.1.0/firebase-app.js"></script>
+    <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+    <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBgxqqy4BkOo_ZSZHamiHtxaIOuaHUemz4",
+            authDomain: "thorium-games.firebaseapp.com",
+            databaseURL: "https://thorium-games.firebaseio.com",
+            projectId: "thorium-games",
+            storageBucket: "thorium-games.appspot.com",
+            messagingSenderId: "877408314624",
+            appId: "1:877408314624:web:f6cee9b114752466"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth();
+    </script>
 </body>
 
 </html>

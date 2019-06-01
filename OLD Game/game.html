@@ -20,6 +20,9 @@
         <li><a href="about.html">about thorium</a></li>
         <li><a href="team.html">the team</a></li>
         <li><a href="contact.html">contact us</a></li>
+        <li>
+            <button>sign in/create account</button>
+        </li>
     </ul>
 
     <div class="heading-div">
@@ -35,7 +38,7 @@
             Red = Dead delivers a captivating experience for players of all ages.
         </p>
 
-        <h3>play now!</h3>
+        <h3 id="name">play now!</h3>
         <div id="game-div" style="display: inline-block">
             <script>
                 var gameDiv = document.getElementById("game-div");
@@ -43,6 +46,39 @@
             </script>
         </div>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBgxqqy4BkOo_ZSZHamiHtxaIOuaHUemz4",
+            authDomain: "thorium-games.firebaseapp.com",
+            databaseURL: "https://thorium-games.firebaseio.com",
+            projectId: "thorium-games",
+            storageBucket: "thorium-games.appspot.com",
+            messagingSenderId: "877408314624",
+            appId: "1:877408314624:web:f6cee9b114752466"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth();
+        var userId = "malav-mehta"
+
+        var nameHead = document.getElementById("name");
+
+        function getValue() {
+            return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+                var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+                nameHead.innerHTML = `Hi ${username}!`;
+            });
+        }
+
+        getValue();
+    </script>
 </body>
 
 </html>
