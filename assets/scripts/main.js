@@ -166,6 +166,7 @@ function loadGame() {
         navigateToDiv(document.getElementById("actual-game-div"));
         document.getElementById("game-warning").style.visibility = "visible";
         document.getElementById("game-warning").innerHTML = "scroll down &darr;"
+        bgAudio.play();
     } else {
         document.getElementById("actual-game-div").style.display = "none";
         document.getElementById("game-warning").style.visibility = "visible";
