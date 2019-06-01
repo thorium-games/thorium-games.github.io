@@ -139,6 +139,7 @@ updateLeaderboard();
 
 function saveProgress() {
     currentDeaths += deaths;
+    deaths = 0;
     currentLevel = globalLevel;
     if (currentDeaths == 0) {
         currentDeaths++;
