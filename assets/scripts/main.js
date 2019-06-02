@@ -140,7 +140,7 @@ updateLeaderboard();
 function saveProgress() {
     currentDeaths += deaths;
     deaths = 0;
-    currentLevel = globalLevel;
+    currentLevel = globalLevel - 1;
     if (currentDeaths == 0) {
         currentDeaths++;
     }
@@ -167,11 +167,12 @@ function loadGame() {
     if (loggedIn) {
         document.getElementById("actual-game-div").style.display = "inline-block";
         navigateToDiv(document.getElementById("actual-game-div"));
-        document.getElementById("game-warning").style.visibility = "visible";
         document.getElementById("game-warning").innerHTML = "scroll down &darr;"
         bgAudio.play();
     } else {
         document.getElementById("actual-game-div").style.display = "none";
-        document.getElementById("game-warning").style.visibility = "visible";
+        document.getElementById("game-warning").innerHTML = "sign in to play &nearr;"
     }
 }
+
+setInterval(updateLeaderboard, 10000);

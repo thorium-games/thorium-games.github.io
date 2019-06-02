@@ -45,11 +45,15 @@
 
         <div class="content-block game-info-block" id="actual-game-block">
             <h2><span><img src="assets/images/icons/game.png" style="height: 7vw; padding-right: 0.5em;"></span>our game</h2>
+            <button onclick="loadGame()" id="game-warning" class="game-warning tertiary-button">play now &darr;</button>
+            <br>
             <p class="content-para">
                 Red = Dead is a novel 2D arcade platformer game developed by Thorium Games’s top team. Countless levels with deadly enemies and traps challenge the player as they navigate the hazardous world of GAME NAME. Available to play for free on our website, Red
                 = Dead delivers a captivating experience for players of all ages.
-            </p>
-            <br>
+            </p><br>
+            <button onclick="updateLeaderboard()">update leaderboard &rarr;</button>
+            <button class="secondary-button" onclick="saveProgress();">save progress &darr;</button>
+            <button class="tertiary-button" onclick="resetProgress();">reset progress &darr;</button>
             <table>
                 <tr>
                     <td style="padding: 1em;">
@@ -122,18 +126,13 @@
                         <h4 id="ratio5"></h4>
                     </td>
                 </tr>
-
             </table>
-            <br>
-            <button onclick="loadGame()">play now &darr;</button>
-            <button onclick="updateLeaderboard()">update leaderboard &rarr;</button>
-            <button class="secondary-button" onclick="saveProgress();">save progress &darr;</button>
-            <button class="tertiary-button" onclick="resetProgress();">reset progress &darr;</button>
-            <p class="game-warning" id="game-warning">sign in to play...</p>
+            <br><br><br>
         </div>
 
         <div id="actual-game-div" class="actual-game-div game-info-block">
             <h2>red=ded</h2>
+            <button onclick="saveProgress()" class="game-warning game-button">save progress &darr;</button>
             <h4 id="stats">deaths: 0, level: 0, ratio: 0% (current session)</h4>
             <script>
                 runGame(GAME_LEVELS, DOMDisplay);
@@ -223,7 +222,7 @@
                 </form>
 
                 <br><br>
-                <button onclick="cancelModal(createAccountModal)">cancel</button>
+                <button onclick="cancelModal(createAccountModal)">done</button>
                 <button class="secondary-button" id="create-account-button" onclick="getInputForNewUser()">create account &rarr;</button>
             </div>
         </div>
