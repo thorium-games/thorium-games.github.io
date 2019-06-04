@@ -1,4 +1,22 @@
-var GAME_LEVELS = [
+/*
+some code and functions were taken from Marijn Haverbeke's Eloquent Javascript Book, 
+in which there are many tutorials regarding the creation of games and good practices when
+creating web games. link: https://eloquentjavascript.net/16_game.html (used under the CCO license)
+
+specifically, this website was used given the fact that it is one of the only sources that
+outlines a process on how to create web games using DOM
+*/
+
+
+/*
+here, we create all the game levels in the form of a list
+players progress through levels in the for loop logic indicated at the bottom of the page
+
+levels are created using these strings, which are mapped in an array of arrays of
+characters (further explained below)
+*/
+
+var gameLevels = [
     `###################################################################
 #.................................................................#
 #.................................................................#
@@ -224,164 +242,170 @@ var GAME_LEVELS = [
 #############################################################################`
 ];
 
-var bgAudio = document.createElement("audio");
+var globalLevel = 0; // along with the game levels, this variable needs to be generated at the top to minimise latency
+var deaths = 0; // creating a global death variable for saving progress
+/*
+here, we import all the the audio used for the websites
+the sources of the audio will be soon be cited
+
+audio included background music and sfx for when colliding with
+certain items
+*/
+
+var bgAudio = document.createElement("audio"); // background score
 var retroMusic = document.createElement("source");
 retroMusic.setAttribute("src", "assets/audio/bg.mp3");
 retroMusic.setAttribute("type", "audio/mpeg");
 bgAudio.appendChild(retroMusic);
-bgAudio.volume = 0.275;
-bgAudio.loop = true;
+bgAudio.volume = 0.275; // lowering background audio to ensure that it does not annoy the user
+bgAudio.loop = true; // the backgroud audio is short and must be looped to maintain 
 
-var globalLevel = 0;
-
-var coinCollected = document.createElement("audio");
+var coinCollected = document.createElement("audio"); // coin collection sfx
 var coinSound = document.createElement("source");
 coinSound.setAttribute("src", "assets/audio/coin.wav");
 coinSound.setAttribute("type", "audio/wav");
 coinCollected.appendChild(coinSound);
 
-var gameLost = document.createElement("audio");
+var gameLost = document.createElement("audio"); // game lost sfx
 var loseSound = document.createElement("source");
 loseSound.setAttribute("src", "assets/audio/lose.wav");
 loseSound.setAttribute("type", "audio/wav");
 gameLost.appendChild(loseSound);
 
-var hitMonster = document.createElement("audio");
+var hitMonster = document.createElement("audio"); // monster hit sfx
 var hitSound = document.createElement("source");
 hitSound.setAttribute("src", "assets/audio/hit.wav");
 hitSound.setAttribute("type", "audio/wav");
 hitMonster.appendChild(hitSound);
 
-var gameWon = document.createElement("audio");
+var gameWon = document.createElement("audio"); // game won sfx
 var winSound = document.createElement("source");
 winSound.setAttribute("src", "assets/audio/win.wav");
 winSound.setAttribute("type", "audio/wav");
 gameWon.appendChild(winSound);
 
-var deaths = 0;
+// the level variable which creates level information in the form of a class (so that it can be reused for all levels, and to minimise latency by using a class and not a complex function)
+var Level = class Level { // levels are grid plans, which are then filled with vectors
+    constructor(plan) { // class constructor, which create the level plan in the form of characters comprehensible by the js file
+        let rows = plan.trim().split("\n").map(l => [...l]); // splitting the level plan, trimming white space, splitting by every new line, and mapping it into lines; essentially, this creates an array of array of characters
+        this.height = rows.length; // the height is the amount of character arrays in the row array
+        this.width = rows[0].length; // the width is the length of one singular row (all rows are the same length)
+        this.startActors = []; // list containing all the actors (meaning players, coins, lava) that are added to the list for creation and updation
 
-var Level = class Level {
-    constructor(plan) {
-        let rows = plan.trim().split("\n").map(l => [...l]);
-        this.height = rows.length;
-        this.width = rows[0].length;
-        this.startActors = [];
-
-        this.rows = rows.map((row, y) => {
-            return row.map((ch, x) => {
-                let type = levelChars[ch];
-                if (typeof type == "string") return type;
+        this.rows = rows.map((row, y) => { // mapping the level plan to create the actors on the level
+            return row.map((ch, x) => { // the two variables that will be used later for the creation of actors
+                let type = levelChars[ch]; // type of character determined based on dictionnary, and different types of characters point to class
+                if (typeof type == "string") return type; // returns the type/class if the character is a string
                 this.startActors.push(
-                    type.create(new Vector(x, y), ch));
-                return "empty";
+                    type.create(new Vector(x, y), ch)); // add the actor to the actor list, and create a new vector for the actor based on its class
+                return "empty"; // if the actor is not in the level chars, return an empty cell for the grid in through which everything is displayed
             });
         });
     }
 }
 
-var State = class State {
-    constructor(level, actors, status) {
-        this.level = level;
-        this.actors = actors;
-        this.status = status;
+var State = class State { // variable, in the form of a class, containing all information pertaining to the current status of the game
+    constructor(level, actors, status) { // constructs the variable in a class constructor
+        this.level = level; // set level for status
+        this.actors = actors; // select actors for current level and update status accordingly
+        this.status = status; // status determines the actual status of the game; playing, won, lost and gameover statuses are available
     }
 
-    static start(level) {
-        return new State(level, level.startActors, "playing");
+    static start(level) { // static method for the class, used for creating objects throughout the file
+        return new State(level, level.startActors, "playing"); // when the game begins, these values are used for the level
     }
 
-    get player() {
-        return this.actors.find(a => a.type == "player");
+    get player() { // get method for the class, used to retrieve information pertaining to the player
+        return this.actors.find(a => a.type == "player"); // find the player amongst all the actors using the "a => a" method
     }
 }
 
-var Vector = class Vector {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+var Vector = class Vector { // the variable/class through which all actors are created in the form of vector based scalable graphics
+    constructor(x, y) { // information containing the size of the actor
+        this.x = x; // the x value of the vector actor
+        this.y = y; // the y value of the vector actor
     }
-    plus(other) {
+    plus(other) { // plus function used to move vector object positions
         return new Vector(this.x + other.x, this.y + other.y);
     }
-    times(factor) {
+    times(factor) { // times function used to scale the graphics with a predetermined factor
         return new Vector(this.x * factor, this.y * factor);
     }
 }
 
-var Player = class Player {
-    constructor(position, speed) {
-        this.position = position;
-        this.speed = speed;
+var Player = class Player { // player variable defined by the player class
+    constructor(position, speed) { // the player constructor create the position and the speed of the player both values that are constantly updated and available at low latency in the form of classes
+        this.position = position; // the current position of the player, in the form of a player
+        this.speed = speed; // the current speed of the player, both vertical and horizonta;
     }
 
-    get type() { return "player"; }
+    get type() { return "player"; } // used in the creation of the level plan
 
     static create(position) {
         return new Player(position.plus(new Vector(0, -0.5)),
-            new Vector(0, 0));
+            new Vector(0, 0)); // the new vector for the player is created every time there is a new frame, and it is created based on the position and speed of the previous vector
     }
 }
 
-Player.prototype.size = new Vector(0.8, 1.5);
+Player.prototype.size = new Vector(0.8, 1.5); // the size is defined as a prototype outside the class for a more efficient method to create and access this value
 
-var lavaSpeed = 2.5;
+var RedBlockSpeed = 2.5; // the speed of the red blocks, stored as changeable variables (needs to be changes in the case of powerup usage)
 
-var Lava = class Lava {
-    constructor(position, speed, reset) {
-        this.position = position;
-        this.speed = speed;
-        this.reset = reset;
+var RedBlock = class RedBlock { // variables that is used to create lava actors, again the form of classes to minimize code redundancy
+    constructor(position, speed, reset) { // constructor contains all variables pertinent to creation of redblocks, although not all are used by all the types of redblocks
+        this.position = position; // position, standard for all actors
+        this.speed = speed; // speed, for moving blocks
+        this.reset = reset; // reset, for dripping blocks
     }
 
-    get type() { return "lava"; }
+    get type() { return "RedBlock"; } // used for the level plan creation, when creating actors
 
-    static create(position, ch) {
-        if (ch == "=") {
-            return new Lava(position, new Vector(lavaSpeed, 0));
+    static create(position, ch) { // static method to create the lava blocks
+        if (ch == "=") { // different blocks are created based on the characters defined in the levels
+            return new RedBlock(position, new Vector(RedBlockSpeed, 0)); // moving redblock (vertical)
         } else if (ch == "|") {
-            return new Lava(position, new Vector(0, lavaSpeed));
+            return new RedBlock(position, new Vector(0, RedBlockSpeed)); // moving redblock (horizontal)
         } else if (ch == "v") {
-            return new Lava(position, new Vector(0, lavaSpeed), position);
+            return new RedBlock(position, new Vector(0, RedBlockSpeed), position); // dripping redblock (position is reset at the end of the speed movements)
         }
     }
 }
 
-Lava.prototype.size = new Vector(1, 1);
+RedBlock.prototype.size = new Vector(1, 1); // size is defined outside of the variable for the same reason as that of the player
 
-var monsterSpeed = lavaSpeed * 2.5;
+var monsterSpeed = RedBlockSpeed * 2.5; // the speed of the monsters is faster than the redblocs, given that the monsters should be harder to defeat
 
-class Powerup {
-    constructor(position, chtype) {
+class Powerup { // powerups defined as separate classes (there are 5 different types of powerups)
+    constructor(position, chtype) { // constructor calls for and defines all values needed to create the powerups
         this.position = position;
         this.chtype = chtype;
     }
 
-    get type() { return "powerup"; }
+    get type() { return "powerup"; } // used for the level plan creation
 
-    static create(position, ch) {
-        this.chtype = ch;
-        console.log(this.chtype);
-        return new Powerup(position.plus(new Vector(0, -1)), this.chtype);
+    static create(position, ch) { // static method for intial creation of powerups
+        this.chtype = ch; // getting the character type
+        return new Powerup(position.plus(new Vector(0, -1)), this.chtype); // create the powerup based on the type of character
     }
 
-    update() {
-        return new Powerup(this.position, this.chtype);
+    update() { // powerup is updated on the case of collision
+        return new Powerup(this.position, this.chtype); // the new powerup, generated based on the update
     }
 
-    collide(state) {
-        let filtered = state.actors.filter(a => a != this);
+    collide(state) { // the collision detector, which determines what to do on the case of collision
+        let filtered = state.actors.filter(a => a != this); // removes the actor from the screen/display
         if (this.chtype == "s") {
-            Player.prototype.size = new Vector(0.4, 0.75);
+            Player.prototype.size = new Vector(0.4, 0.75); // if the ch is s, then creates a new, smaller player
         } else if (this.chtype == "l") {
-            Player.prototype.size = new Vector(1.6, 3);
+            Player.prototype.size = new Vector(1.6, 3); // if the ch is l, then creates a new, larger player
         } else if (this.chtype == "p") {
-            lavaSpeed = 1;
+            RedBlockSpeed = 1;
         } else if (this.chtype == "g") {
-            gravity = 26;
+            playerGravity = 20;
         } else if (this.chtype == "f") {
             playerXSpeed = 15;
         } else if (this.chtype == "P") {
-            monsterSpeed = lavaSpeed;
+            monsterSpeed = RedBlockSpeed;
         }
 
         return new State(state.level, filtered, state.status);
@@ -462,7 +486,7 @@ Coin.prototype.size = new Vector(0.6, 0.6);
 var levelChars = {
     ".": "empty",
     "#": "wall",
-    "+": "lava",
+    "+": "RedBlock",
     "M": Monster,
     "m": Monster,
     "s": Powerup,
@@ -474,9 +498,9 @@ var levelChars = {
     "@": Player,
     "o": Coin,
     "P": Powerup,
-    "=": Lava,
-    "|": Lava,
-    "v": Lava
+    "=": RedBlock,
+    "|": RedBlock,
+    "v": RedBlock
 };
 
 function elt(name, attrs, ...children) {
@@ -583,7 +607,7 @@ State.prototype.update = function(time, keys) {
     if (newState.status != "playing") return newState;
 
     let player = newState.player;
-    if (this.level.touches(player.position, player.size, "lava")) {
+    if (this.level.touches(player.position, player.size, "RedBlock")) {
         return new State(this.level, actors, "lost");
     }
 
@@ -602,7 +626,7 @@ function overlap(actor1, actor2) {
         actor1.position.y < actor2.position.y + actor2.size.y;
 }
 
-Lava.prototype.collide = function(state) {
+RedBlock.prototype.collide = function(state) {
     return new State(state.level, state.actors, "lost");
 };
 
@@ -617,22 +641,22 @@ Coin.prototype.collide = function(state) {
     return new State(state.level, filtered, status);
 };
 
-Lava.prototype.update = function(time, state) {
+RedBlock.prototype.update = function(time, state) {
     let newposition = this.position.plus(this.speed.times(time));
     if (!state.level.touches(newposition, this.size, "wall")) {
-        return new Lava(newposition, this.speed, this.reset);
+        return new RedBlock(newposition, this.speed, this.reset);
     } else if (this.reset) {
-        return new Lava(this.reset, this.speed, this.reset);
+        return new RedBlock(this.reset, this.speed, this.reset);
     } else {
-        return new Lava(this.position, this.speed.times(-1));
+        return new RedBlock(this.position, this.speed.times(-1));
     }
 };
 
 function resetVariables() {
     Player.prototype.size = new Vector(0.8, 1.5);
-    lavaSpeed = 2.5;
-    monsterSpeed = lavaSpeed * 2.5;
-    gravity = 38;
+    RedBlockSpeed = 2.5;
+    monsterSpeed = RedBlockSpeed * 2.5;
+    playerGravity = 38;
     playerXSpeed = 10;
 }
 
@@ -647,7 +671,7 @@ Coin.prototype.update = function(time) {
 };
 
 var playerXSpeed = 10;
-var gravity = 38;
+var playerGravity = 38;
 var jumpSpeed = 20;
 
 Player.prototype.update = function(time, state, keys) {
@@ -660,7 +684,7 @@ Player.prototype.update = function(time, state, keys) {
         position = movedX;
     }
 
-    let ySpeed = this.speed.y + time * gravity;
+    let ySpeed = this.speed.y + time * playerGravity;
     let movedY = position.plus(new Vector(0, ySpeed * time));
     if (!state.level.touches(movedY, this.size, "wall")) {
         position = movedY;
