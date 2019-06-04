@@ -1,0 +1,407 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+HK:100,300,400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+:root {
+    --theme-color: #0bd672;
+    --active-theme-color: #0bd672c4;
+    --black-color: #23201f;
+    --active-black-color: #23201fd2;
+    --white-color: #ffffff;
+    --green-color: #0bd672;
+    --pink-color: #ff6464;
+    --active-pink-color: #ff6464c4;
+    --purple-color: #560628;
+    --blue-color: #34a6fb;
+    --actve-blue-color: #34a6fbc4;
+    --yellow-color: #ffde17;
+    --transparent-color: #00000000;
+    --gradient-color: #088d4b;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-scroll-behavior: smooth;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-size: 100vw 100vh;
+    text-align: center;
+    font-family: 'Noto Sans HK', sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+    color: var(--black-color);
+}
+
+h1 {
+    font-size: 9vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    margin-top: 28vh;
+}
+
+h2 {
+    font-size: 7vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    margin: 0;
+    padding: 0.5em;
+}
+
+h3 {
+    font-size: 3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin: 0;
+    padding: 0.2em;
+    color: var(--theme-color);
+}
+
+h4 {
+    font-size: 2vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--black-color);
+}
+
+.alternative-color {
+    color: var(--theme-color);
+}
+
+.main-content {
+    text-align: center;
+    margin-top: 3.5vh;
+    width: 100%;
+}
+
+.header {
+    position: fixed;
+    z-index: 1;
+    background-color: var(--white-color);
+    height: 3.5vh;
+    width: 100vw;
+    left: 0;
+    top: -2vh;
+    right: 0;
+    bottom: 96.5vh;
+    padding: 1.5em;
+    list-style-type: none;
+    text-align: left;
+}
+
+li {
+    display: inline;
+    padding-right: 2vw;
+}
+
+a {
+    background-color: var(--transparent-color);
+    border: none;
+    outline: 0;
+    font-family: 'Noto Sans HK', sans-serif;
+    font-weight: 800;
+    font-size: 0.8vw;
+    color: var(--black-color);
+    padding: 0.8em 2.4em;
+    text-decoration: none;
+    transition: 0.2s all;
+    cursor: pointer;
+}
+
+a:hover {
+    border-bottom: 0.4em solid var(--theme-color);
+}
+
+a:active {
+    color: var(--theme-color);
+}
+
+.current-nav-button {
+    color: var(--theme-color);
+}
+
+.game-nav-button:hover {
+    border-bottom: 0.4em solid var(--pink-color);
+}
+
+.game-nav-button:active {
+    color: var(--pink-color);
+}
+
+.logo-nav-button {
+    font-size: 1.25vw;
+    font-weight: 900;
+    margin-right: 2.5vw;
+    background-color: var(--theme-color);
+    color: var(--white-color);
+}
+
+.logo-nav-button:hover {
+    background-color: var(--active-theme-color);
+    border: none;
+}
+
+.logo-nav-button:active {
+    color: var(--white-color);
+}
+
+input {
+    background-color: var(--transparent-color);
+    border: 0.2em solid var(--black-color);
+    border-radius: 2em;
+    outline: 0;
+    font-family: 'Noto Sans HK', sans-serif;
+    font-weight: 700;
+    font-size: 0.8vw;
+    color: var(--black-color);
+    padding: 0.8em 1.6em;
+    transition: 0.2s all;
+    cursor: auto;
+    width: 15vw;
+}
+
+::placeholder {
+    font-family: 'Noto Sans HK', sans-serif;
+    font-weight: 700;
+    font-size: 0.8vw;
+    color: var(--black-color);
+}
+
+input:hover {
+    background-color: #22212111;
+}
+
+input:focus {
+    border-color: var(--theme-color);
+    background-color: #0bd67211;
+}
+
+input[type="password"] {
+    color: var(--theme-color);
+}
+
+button {
+    background-color: var(--transparent-color);
+    border: 0.2em solid var(--black-color);
+    border-radius: 2em;
+    outline: 0;
+    font-family: 'Noto Sans HK', sans-serif;
+    font-weight: 700;
+    font-size: 0.8vw;
+    color: var(--black-color);
+    padding: 0.8em 1.6em;
+    transition: 0.2s all;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--black-color);
+    color: var(--white-color);
+}
+
+button:active {
+    background-color: var(--active-black-color);
+    border: 0.2em solid var(--active-black-color);
+    color: var(--white-color);
+}
+
+.secondary-button {
+    border: 0.2em solid var(--theme-color);
+    color: var(--theme-color);
+}
+
+.secondary-button:hover {
+    background-color: var(--theme-color);
+}
+
+.secondary-button:active {
+    background-color: var(--active-theme-color);
+    border: 0.2em solid var(--active-theme-color);
+}
+
+.tertiary-button {
+    border: 0.2em solid var(--pink-color);
+    color: var(--pink-color);
+}
+
+.tertiary-button:hover {
+    background-color: var(--pink-color);
+}
+
+.tertiary-button:active {
+    background-color: var(--active-pink-color);
+    border: 0.2em solid var(--active-pink-color);
+}
+
+.game-button {
+    border: 0.2em solid var(--blue-color);
+    color: var(--blue-color);
+}
+
+.game-button:hover {
+    background-color: var(--blue-color);
+}
+
+.game-button:active {
+    background-color: var(--active-blue-color);
+    border: 0.2em solid var(--active-blue-color);
+}
+
+.white-button {
+    border-color: var(--white-color);
+    color: var(--white-color);
+}
+
+.white-button:hover {
+    background-color: var(--white-color);
+    color: var(--theme-color);
+}
+
+.white-button:active {
+    background-color: #ffffff9d;
+    border-color: var(--white-color);
+}
+
+.splash-div {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 15vh;
+}
+
+.content-block {
+    display: inline-block;
+    width: 70vw;
+    border: 2.5em solid var(--theme-color);
+    margin-top: 15vh;
+    margin-bottom: 15vh;
+}
+
+.content-block p {
+    display: inline-block;
+    width: 60%;
+    text-align: left;
+    margin-bottom: 6em;
+}
+
+.content-para {
+    margin: 0;
+}
+
+.content-block button {
+    margin-bottom: 6em;
+}
+
+.content-block table {
+    display: inline-block;
+    padding: 1em;
+}
+
+table h3 {
+    margin: 0;
+    padding: 0;
+}
+
+.game-info-block {
+    border-color: var(--pink-color);
+}
+
+.game-info-block h3 {
+    color: var(--pink-color);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 10vh;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: none;
+    border-radius: 0;
+    text-align: center;
+}
+
+.modal-content {
+    display: inline-block;
+    background-color: var(--white-color);
+    width: 50%;
+    padding: 5em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.15);
+    text-align: center;
+    border: none;
+}
+
+.background {
+    background: var(--blue-color);
+    table-layout: fixed;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.background td {
+    padding: 0;
+}
+
+.lava {
+    background: #ff6464;
+}
+
+.wall {
+    background: #ffffff;
+}
+
+.actor {
+    position: absolute;
+}
+
+.coin {
+    background: var(--yellow-color);
+}
+
+.powerup {
+    background: var(--green-color);
+}
+
+.monster {
+    background: var(--purple-color);
+}
+
+.player {
+    background: var(--black-color);
+}
+
+.lost .player {
+    background: #a04040;
+}
+
+.won .player {
+    box-shadow: -4px -7px 8px white, 4px -7px 8px white;
+}
+
+.game {
+    overflow: hidden;
+    max-width: 1000px;
+    max-height: 750px;
+    position: relative;
+    display: inline-block;
+}
+
+.actual-game-div {
+    display: none;
+    width: 70vw;
+    border: 2.5em solid var(--blue-color);
+    margin-top: 15vh;
+    margin-bottom: 15vh;
+}
+
+.actual-game-div h2 {
+    color: var(--blue-color);
+}
+
+.game-warning {
+    font-weight: 900;
+    font-size: 1vw;
+}
