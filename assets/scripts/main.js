@@ -64,14 +64,22 @@ getUserCount();
 function getInputForSignIn() {
     username = userId.value;
     password = userInputPassword.value;
-    signIn(username, password);
+    if (username != "" && password != "" && username.length <= 12) {
+        signIn(username, password);
+    } else {
+        alert("You may not leave any fields blank, and you user id must be less than or equal 12 characters in length");
+    }
 }
 
 function getInputForNewUser() {
     username = newUserId.value;
     password = newUserPassword.value;
     name = nameInput.value;
-    createUser(username, name, password, 0);
+    if (username != "" && password != "" && name != "" && username.length <= 12 && name.length <= 12) {
+        createUser(username, name, password, 0);
+    } else {
+        alert("You may not leave any fields blank, and you username/user id must be less than or equal 12 characters in length");
+    }
 }
 
 function showModal(modal) {
@@ -96,7 +104,7 @@ function cancelModal(modal) {
 function signIn(userId) {
     getPassword(userId);
     signInButton.innerHTML = "<span><img src='assets/images/misc/loading.gif' height='15px'></span>"
-    setTimeout(authPassword, 3000);
+    setTimeout(authPassword, 500);
 }
 
 function authPassword() {
@@ -155,6 +163,10 @@ function saveProgress() {
     if (currentDeaths == 0) {
         currentDeaths++;
     }
+    if ((Math.round(((currentLevel / (currentDeaths)) * 100)) / 100 > gameLevels.length) || ((Math.round((currentLevel / (currentDeaths)) * 100)) / 100 > currentLevel)) {
+        resetProgress();
+        return null;
+    }
     database.ref('players/' + username).set({
         username: name,
         password: password,
@@ -186,7 +198,7 @@ function loadGame() {
     }
 }
 
-setInterval(updateLeaderboard, 10000);
+setInterval(saveProgress, 5000);
 
 function musicOff() {
     bgAudio.pause();
