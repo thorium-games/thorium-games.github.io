@@ -8,7 +8,7 @@ function navigateToDiv(div) {
     div.scrollIntoView();
 }
 
-var ipAdress;
+// var ipAdress;
 
 // $.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
 //     ipAddress = data.geobytesremoteip;
