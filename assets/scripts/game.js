@@ -16,7 +16,7 @@ levels are created using these strings, which are mapped in an array of arrays o
 characters (further explained below)
 */
 
-var GAME_LEVELS = [
+var gameLevels = [
     `###################################################################
 #.................................................................#
 #.................................................................#
@@ -137,7 +137,7 @@ var GAME_LEVELS = [
 #.................................................................#
 #..@............................##################................#
 #.................................................................#
-#.......o.........o....o............o.o.o.o.o.....................#
+#=......o.........o....o............o.o.o.o.o.....................#
 ###################################################################`,
     `###################################################################
 #.................................................................#
@@ -410,6 +410,7 @@ var GAME_LEVELS = [
 
 var globalLevel = 0; // along with the game levels, this variable needs to be generated at the top to minimise latency
 var deaths = 0; // creating a global death variable for saving progress
+
 /*
 here, we import all the the audio used for the websites
 the sources of the audio will be soon be cited
