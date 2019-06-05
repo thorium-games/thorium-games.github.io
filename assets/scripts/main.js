@@ -8,6 +8,12 @@ function navigateToDiv(div) {
     div.scrollIntoView();
 }
 
+var ipAdress;
+
+$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
+    ipAddress = data.geobytesremoteip;
+});
+
 var firebaseConfig = {
     apiKey: "AIzaSyBgxqqy4BkOo_ZSZHamiHtxaIOuaHUemz4",
     authDomain: "thorium-games.firebaseapp.com",
@@ -36,13 +42,18 @@ var signInButton = document.getElementById("sign-in-button");
 var createAccountButton = document.getElementById("create-account-button");
 var mainSignIn = document.getElementById("main-sign-in");
 
+ip = Request.UserHostAddress;
+hostname = Request.UserHostName;
+console.log(ip, hostname);
+
 function createUser(userId, name, password, currentLevel) {
     database.ref('players/' + userId).set({
         username: name,
         password: password,
         level: currentLevel,
         deaths: 0,
-        ratio: 0
+        ratio: 0,
+        ip: ipAdress
     });
     userCount++;
     updateUserCount(userCount);
