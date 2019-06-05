@@ -76,6 +76,17 @@ function getInputForNewUser() {
 
 function showModal(modal) {
     modal.style.display = "inline-block";
+    window.onkeypress = function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            console.log(modal);
+            if (modal == signInModal) {
+                getInputForSignIn();
+            } else if (modal == createAccountModal) {
+                getInputForNewUser();
+            }
+        }
+    }
 }
 
 function cancelModal(modal) {
@@ -158,7 +169,7 @@ function saveProgress() {
 function resetProgress() {
     currentDeaths = 0;
     currentLevel = 0;
-    globalLevel = 0;
+    globalLevel = 1;
     deaths = 0;
     saveProgress();
 }

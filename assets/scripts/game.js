@@ -358,7 +358,7 @@ var RedBlock = class RedBlock { // variables that is used to create lava actors,
         this.reset = reset; // reset, for dripping blocks
     }
 
-    get type() { return "redblock"; } // used for the level plan creation, when creating actors
+    get type() { return "RedBlock"; } // used for the level plan creation, when creating actors
 
     static create(position, ch) { // static method to create the lava blocks
         if (ch == "=") { // different blocks are created based on the characters defined in the levels
@@ -773,4 +773,19 @@ async function runGame(plans, Display) {
 
     }
     document.getElementById("stats").innerHTML = "you won the game!";
+}
+
+document.onkeydown = function(e) {
+    if (event.keyCode == 123) {
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+    }
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+    }
 }
