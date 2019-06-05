@@ -10,9 +10,9 @@ function navigateToDiv(div) {
 
 var ipAdress;
 
-$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
-    ipAddress = data.geobytesremoteip;
-});
+// $.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
+//     ipAddress = data.geobytesremoteip;
+// });
 
 var firebaseConfig = {
     apiKey: "AIzaSyBgxqqy4BkOo_ZSZHamiHtxaIOuaHUemz4",
@@ -52,8 +52,8 @@ function createUser(userId, name, password, currentLevel) {
         password: password,
         level: currentLevel,
         deaths: 0,
-        ratio: 0,
-        ip: ipAdress
+        ratio: 0
+            // ip: ipAdress
     });
     userCount++;
     updateUserCount(userCount);
