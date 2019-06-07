@@ -1,40 +1,117 @@
+<!-- 
+    Red = Ded by Malav Mehta, Justin Lu and Thomas Cwintal submitted on Friday, June 14, 2019
+    to Mr. Benjamin Hudson as part of the ICS2O course.
+
+    This game was created for clients from Thomas Darcy McGee, and was created to explore the usage
+    and knowledge of JS Document Object Models, Loops, Logic (selection, string), CSS styling techniques,
+    including Classes, Ids, and root variables, and finally HTML knowledge used to script the website.
+
+    This is the single page HTML document used to create elements shown to the user.
+ -->
+
+<!-- setting the document type as html for reference of the browser -->
 <!DOCTYPE html>
-<html lang="en">
+
+<!-- opening html tag, with all content on one page for design and variable storing reasons (also to maximise efficiency) -->
+<html>
+
+<!-- head tag, in which eerything that needs to be loaded before the body is imported -->
 
 <head>
     <title>Thorium Games</title>
+
+    <!-- linking the stylesheet that will be used for this page -->
     <link rel="stylesheet" type="text/css" href="assets/style.css">
+
+    <!-- the javascript file containing all logic pertaining to the game is imported early in the head (it does not make reference to any document elements) -->
     <script src="assets/scripts/game.js"></script>
+
+    <!--
+        multiple javascript files that import all of the necessary firebase files 
+
+        firebase is a realtime database offered for free by google, and will be used in our game in order to 
+        save user progress and get the leaderboard
+    -->
+
+    <!-- firebase app files, used to initiate the firebase app, by configuring the firebase connection -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+
+    <!-- used to authenticate firebase requests from the client's computer to the database -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
+
+    <!-- database js file, which handles all database queries and starts a databse object in our own code -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
+
+    <!-- used to store variables non-locally on the realtime database -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
+
+    <!-- importing jquery api by google to find the user's ip address -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 
+<!--
+    in the body tag, not allowing the user to right click to prevent users from opening the right click context menu
+    so that users can't directly open the inspect element menu and alter the values on their database
+-->
+
 <body oncontextmenu="return false;">
 
-    <!-- <body> -->
+    <!--
+        the header bar at the top, which is created in an unordered list
+        each tab link activates the navigate to div function, which smooth scroll the user to the labelled div
+     -->
     <ul class="header">
         <li><a class="logo-nav-button" onclick="navigateToDiv(splashDiv)">thorium games</a></li>
         <li><a onclick="navigateToDiv(aboutDiv)">about thorium games</a></li>
-        <li><a onclick="navigateToDiv(gameDiv)">red = ded (our game)</a></li>
+        <li><a onclick="navigateToDiv(gameDiv)" class="game-nav-button">red = ded (our game)</a></li>
         <li><a onclick="navigateToDiv(teamDiv)">meet the team</a></li>
         <li><a onclick="navigateToDiv(contactDiv)">contact us</a></li>
+
+        <!-- 
+            these elements are list items, but are buttons, that are used to activate the signin and create modal
+
+            for stylistic purposes, the buttons are floated to the right, and on click activate the showModal function
+            which opens their respective modals
+
+            these buttons are also shifted up, cause otherwise the padding of the unordered header list make the buttons
+            appear out of style
+          -->
         <li style="float: right; transform: translateY(-1vh);"><button class="secondary-button" onclick="showModal(createAccountModal)">create account</button></li>
         <li style="float: right; transform: translateY(-1vh);"><button id="main-sign-in" onclick="showModal(signInModal)">sign in</button></li>
     </ul>
 
+    <!-- this div defines the website's core content, which is separated from the header, and is centered -->
     <div class="main-content">
+
+        <!--
+            for each website section/content, we use divs that identify that particular section
+
+            in order to ensure that when the user clicks on a tab item and navigates to the div that the smooth scroll
+            centers the div in the middle of the page when the scrolling is finished, the actual id of the div that the
+            that the user navigates to is different; in reality, the user navigates to the div on top of the div actually
+            containing the websites content, thereby vertically centering the content div in the middle of the page
+         -->
         <div id="splash-block"><br></div>
+
+        <!-- the splash div -->
         <div class="splash-div">
+
+            <!-- the big, main header, with a span used to separately color the th of our company name, thorium games -->
             <h1><span class="alternative-color">th</span>orium games</h1>
+
+            <!-- two nav buttons used to quickly navigate to about and game divs -->
             <button onclick="navigateToDiv(aboutDiv)">learn more &darr;</button>
             <button class="secondary-button" onclick="navigateToDiv(gameDiv)">start playing &rarr;</button>
         </div>
 
+        <!-- the about block, used for navigation reference -->
         <div id="about-block"><br></div>
 
+        <!--
+            all content divs are organized in the following fashion:
+                a header (of level 2) containing a span with a logo that makes sense for the title as well as the title
+                under the header there is a paragraph which holds that actual content of the div
+         -->
         <div class="content-block">
             <h2><span><img src="assets/images/icons/about.png" style="height: 7vw; padding-right: 0.5em;"></span>about <span class="alternative-color">tg</span></h2>
             <p>
@@ -43,19 +120,34 @@
             </p>
         </div>
 
+        <!-- same as the about block, the game block is where the user navigates to -->
         <div id="game-block"><br></div>
 
+        <!-- the game div style differs from the other content divs, hence having a different class -->
         <div class="content-block game-info-block" id="actual-game-block">
             <h2><span><img src="assets/images/icons/game.png" style="height: 7vw; padding-right: 0.5em;"></span>our game</h2>
+
+            <!-- the play now button, which loads the game by ensuring that the user is signed in -->
             <button onclick="loadGame()" id="game-warning" class="game-warning tertiary-button">play now &darr;</button>
             <br>
+
+            <!-- content about the paragraph -->
             <p class="content-para">
                 Red = Dead is a novel 2D arcade platformer game developed by Thorium Games’s top team. Countless levels with deadly enemies and traps challenge the player as they navigate the hazardous world of Red = Ded. Available to play for free on our website, Red
                 = Dead delivers a captivating experience for players of all ages.
             </p><br>
+
+            <!-- buttons used to update leaderboard, save progress and reset progress, with their respective functions pointing back to the js file -->
+            <!-- &Xarr format used to for pointing arrows -->
             <button onclick="updateLeaderboard()">update leaderboard &rarr;</button>
             <button class="secondary-button" onclick="saveProgress();">save progress &darr;</button>
             <button class="tertiary-button" onclick="resetProgress();">reset progress &darr;</button>
+
+            <!--
+                leaderboard table where all the leadeboard positions acctually appear
+                by default, the leaderboard values are set to "no connection" in the case that the leaderboard doesn't update due to no connection
+             -->
+
             <table>
                 <tr>
                     <td style="padding: 1em;">
@@ -74,10 +166,10 @@
                         <h4>1</h4>
                     </td>
                     <td>
-                        <h4 id="posName1"></h4>
+                        <h4 id="posName1">no connection</h4>
                     </td>
                     <td>
-                        <h4 id="ratio1"></h4>
+                        <h4 id="ratio1">no connection</h4>
                     </td>
                 </tr>
 
@@ -86,10 +178,10 @@
                         <h4>2</h4>
                     </td>
                     <td>
-                        <h4 id="posName2"></h4>
+                        <h4 id="posName2">no connection</h4>
                     </td>
                     <td>
-                        <h4 id="ratio2"></h4>
+                        <h4 id="ratio2">no connection</h4>
                     </td>
                 </tr>
 
@@ -98,10 +190,10 @@
                         <h4>3</h4>
                     </td>
                     <td>
-                        <h4 id="posName3"></h4>
+                        <h4 id="posName3">no connection</h4>
                     </td>
                     <td>
-                        <h4 id="ratio3"></h4>
+                        <h4 id="ratio3">no connection</h4>
                     </td>
                 </tr>
 
@@ -110,10 +202,10 @@
                         <h4>4</h4>
                     </td>
                     <td>
-                        <h4 id="posName4"></h4>
+                        <h4 id="posName4">no connection</h4>
                     </td>
                     <td>
-                        <h4 id="ratio4"></h4>
+                        <h4 id="ratio4">no connection</h4>
                     </td>
                 </tr>
 
@@ -122,29 +214,53 @@
                         <h4>5</h4>
                     </td>
                     <td>
-                        <h4 id="posName5"></h4>
+                        <h4 id="posName5">no connection</h4>
                     </td>
                     <td>
-                        <h4 id="ratio5"></h4>
+                        <h4 id="ratio5">no connection</h4>
                     </td>
                 </tr>
             </table>
+
+            <!-- spacing at the end so that the space above the header is unifor with the space under the table for aesthetic purposes -->
             <br><br><br>
         </div>
 
+        <!--
+            the actual game div, that contains the game and is only loaded if the user is logged in and clicks on the play now button
+            the game div is differently colored to put emphasis on it
+         -->
         <div id="actual-game-div" class="actual-game-div game-info-block">
+            <!-- the title of our game -->
             <h2>red=ded</h2>
+
+            <!-- saves progress on the game -->
             <button onclick="saveProgress()" class="game-warning game-button">save progress &darr;</button> <button onclick="musicOff()" id="music-switch" class="game-warning game-button">music off</button>
+
+            <!-- the header where all the stats of the users current session are updated -->
             <h4 id="stats">deaths: 0, level: 0, ratio: 0% (current session)</h4>
+
+            <!-- the global script code which load the actual game into the document, by running the run game function defined in the game js file -->
             <script>
                 runGame(gameLevels, gameScreen);
             </script>
         </div>
 
+        <!-- the team block, labelled separately form the team div for the same reason as the about block -->
         <div id="team-block"><br></div>
 
+        <!-- the team page div -->
         <div class="content-block">
             <h2><span><img src="assets/images/icons/team.png" style="height: 7vw; padding-right: 0.5em;"></span>the team</h2>
+
+            <!-- 
+                a table organising all information about the player in the following order:
+                    name
+                    position/role
+                    image
+                    description/bio
+             -->
+
             <table>
                 <tr>
                     <td>
@@ -171,6 +287,7 @@
                 </tr>
 
                 <tr>
+                    <!-- the images need to be rotated, as the intial images were not rotated -->
                     <td><img src="assets/images/portraits/malav.jpg" style="height: 20vh; transform: rotate(-90deg)"></td>
                     <td><img src="assets/images/portraits/justin.jpg" style="height: 20vh; transform: rotate(90deg)"></td>
                     <td><img src="assets/images/portraits/thomas.jpg" style="height: 20vh; transform: rotate(90deg)"></td>
@@ -190,17 +307,25 @@
             </table>
         </div>
 
+        <!-- contact block, organized above contact div for above reasons -->
         <div id="contact-block"><br></div>
 
+        <!-- contact div -->
         <div class="content-block">
             <h2><span><img src="assets/images/icons/contact.png" style="height: 7vw; padding-right: 0.5em;"></span>contact us</h2>
+
+            <!-- containing all the contact content (contact information) -->
             <p class="content-para">
                 If you have any questions or concerns, please feel free to contact us via email: gamesthorium@gmail.com or phone: 613-853-3838.
             </p>
         </div>
 
+        <!-- modal divs used to open the create account and sign in boxes that appear when the user clicks on the sign in/create account button -->
+        <!-- the modals are full screen, and the modal content is different from that of the div containing it -->
         <div class="modal" id="sign-in-modal">
+            <!-- the actual modal content -->
             <div class="modal-content">
+                <!-- the form containing the fields for user id and password inputs, with mandatory pattern and min length variables -->
                 <form>
                     <input type="text" name="user-id" id="user-id" pattern="[A-Za-z]" placeholder="user id" required>
                     <br><br>
@@ -208,13 +333,16 @@
                 </form>
 
                 <br><br>
+                <!-- the buttons allowing the modal to be cancelled and the sign in function to go through -->
                 <button onclick="cancelModal(signInModal)">cancel</button>
                 <button class="secondary-button" id="sign-in-button" onclick="getInputForSignIn()">sign in &rarr;</button>
             </div>
         </div>
 
+        <!-- the create account modal -->
         <div class="modal" id="create-account-modal">
             <div class="modal-content">
+                <!-- creating user inputs for the user id, name and password -->
                 <form>
                     <input type="text" name="user-name" id="user-name" placeholder="your name">
                     <br><br>
@@ -223,13 +351,20 @@
                     <input type="password" name="user-pass" id="new-user-pass" minlength="8" placeholder="password" required>
                 </form>
 
+                <!-- the buttons allowing the modal to be cancelled and the create account function to go through -->
                 <br><br>
                 <button onclick="cancelModal(createAccountModal)">done</button>
                 <button class="secondary-button" id="create-account-button" onclick="getInputForNewUser()">create account &rarr;</button>
             </div>
         </div>
     </div>
+
+    <!-- importing the main js file which contains all the logic behind the way the html document works -->
     <script src="assets/scripts/main.js"></script>
+
+    <!-- closing the body tag -->
 </body>
+
+<!-- closing the html document tag -->
 
 </html>

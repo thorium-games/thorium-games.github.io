@@ -1,3 +1,14 @@
+/* 
+Red = Ded by Malav Mehta, Justin Lu and Thomas Cwintal submitted on Friday, June 14, 2019
+to Mr. Benjamin Hudson as part of the ICS2O course.
+
+This game was created for clients from Thomas Darcy McGee, and was created to explore the usage
+and knowledge of JS Document Object Models, Loops, Logic (selection, string), CSS styling techniques,
+including Classes, Ids, and root variables, and finally HTML knowledge used to script the website.
+
+This is the main JavaScript file containing all functions used for the the entire HTML document.
+*/
+
 // defining all divs as variables
 var splashDiv = document.getElementById("splash-block");
 var aboutDiv = document.getElementById("about-block");

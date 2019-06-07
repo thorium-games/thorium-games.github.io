@@ -1,5 +1,35 @@
+/* 
+Red = Ded by Malav Mehta, Justin Lu and Thomas Cwintal submitted on Friday, June 14, 2019
+to Mr. Benjamin Hudson as part of the ICS2O course.
+
+This game was created for clients from Thomas Darcy McGee, and was created to explore the usage
+and knowledge of JS Document Object Models, Loops, Logic (selection, string), CSS styling techniques,
+including Classes, Ids, and root variables, and finally HTML knowledge used to script the website.
+
+This is the CSS file containing all the styling used for the website and for the game.
+ */
+
+
+/* generally, throughout our webpage we have chosen to follow the white cube minimal aesthetic */
+
+
+/*
+importing all the fonts that will be used in the website from google apis
+there are two fonts that we imported:
+    Noto Sans HK
+    Poppins
+we import all variations (different weights and italicized versions) of the font
+*/
+
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+HK:100,300,400,500,700,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+
+/* 
+defining css variables at the beginning of the variable in the the ::root placeholder
+changing any variables in the root place where the variables are declared changes all the colors of the game
+variables are called to in other element style declarations using the following format: var(--variable-name);
+ */
+
 :root {
     --theme-color: #0bd672;
     --active-theme-color: #0bd672c4;
@@ -17,12 +47,27 @@
     --gradient-color: #088d4b;
 }
 
+
+/* smooth scroll for navigateToDiv js file, and disallowing user select for aesthetic purposes */
+
 html {
     scroll-behavior: smooth;
     -webkit-scroll-behavior: smooth;
     user-select: none;
     -webkit-user-select: none;
 }
+
+
+/* all variables important to the body, including default font properties, text-align center so that all the divs are centered in the document */
+
+
+/*
+throughout all the styling, the following types of measurements are used rather than the normal "px" method of measuring:
+    vh and vw: viewport height and viewport width used to set the length and width of divs as well as vw is used to declare font-sizes
+    %: same as vh and vw, but instead of using the viewport porperties, the length and width of the div containing the variables are used
+    em: used to get the size based on the size properties of the containing div
+these variables were used instead of px to create a scalable website that can fit to all screens (as long as the ration of width:height is not extremely abnormal)
+ */
 
 body {
     background-size: 100vw 100vh;
@@ -32,6 +77,9 @@ body {
     font-size: 1vw;
     color: var(--black-color);
 }
+
+
+/* setting the header characteristics, with different font weigths and sizes for different header levels */
 
 h1 {
     font-size: 9vw;
@@ -64,15 +112,24 @@ h4 {
     color: var(--black-color);
 }
 
+
+/* alternative colors used in span tags to emphasize certain text */
+
 .alternative-color {
     color: var(--theme-color);
 }
+
+
+/* the main content is separated from the header */
 
 .main-content {
     text-align: center;
     margin-top: 3.5vh;
     width: 100%;
 }
+
+
+/* header styling  applied to the list */
 
 .header {
     position: fixed;
@@ -89,10 +146,16 @@ h4 {
     text-align: left;
 }
 
+
+/* ensuring that the list is created on the same line as opposed to new lines */
+
 li {
     display: inline;
     padding-right: 2vw;
 }
+
+
+/* styling for the actual tab bars on the nav bar/header */
 
 a {
     background-color: var(--transparent-color);
@@ -116,9 +179,8 @@ a:active {
     color: var(--theme-color);
 }
 
-.current-nav-button {
-    color: var(--theme-color);
-}
+
+/* different styling for the  for the game nav button */
 
 .game-nav-button:hover {
     border-bottom: 0.4em solid var(--pink-color);
@@ -127,6 +189,9 @@ a:active {
 .game-nav-button:active {
     color: var(--pink-color);
 }
+
+
+/* logo styling */
 
 .logo-nav-button {
     font-size: 1.25vw;
@@ -145,6 +210,9 @@ a:active {
     color: var(--white-color);
 }
 
+
+/* styling for input */
+
 input {
     background-color: var(--transparent-color);
     border: 0.2em solid var(--black-color);
@@ -159,6 +227,9 @@ input {
     cursor: auto;
     width: 15vw;
 }
+
+
+/* placeholder styling */
 
 ::placeholder {
     font-family: 'Noto Sans HK', sans-serif;
@@ -176,9 +247,15 @@ input:focus {
     background-color: #0bd67211;
 }
 
+
+/* setting the password field variables to be differently styles */
+
 input[type="password"] {
     color: var(--theme-color);
 }
+
+
+/* button styling */
 
 button {
     background-color: var(--transparent-color);
@@ -205,6 +282,9 @@ button:active {
     color: var(--white-color);
 }
 
+
+/* secondary button using theme color */
+
 .secondary-button {
     border: 0.2em solid var(--theme-color);
     color: var(--theme-color);
@@ -218,6 +298,9 @@ button:active {
     background-color: var(--active-theme-color);
     border: 0.2em solid var(--active-theme-color);
 }
+
+
+/* tertiary color using red (game) color */
 
 .tertiary-button {
     border: 0.2em solid var(--pink-color);
@@ -233,6 +316,9 @@ button:active {
     border: 0.2em solid var(--active-pink-color);
 }
 
+
+/* game button created with blue game color */
+
 .game-button {
     border: 0.2em solid var(--blue-color);
     color: var(--blue-color);
@@ -246,6 +332,9 @@ button:active {
     background-color: var(--active-blue-color);
     border: 0.2em solid var(--active-blue-color);
 }
+
+
+/* white button created and used if necessary */
 
 .white-button {
     border-color: var(--white-color);
@@ -262,11 +351,17 @@ button:active {
     border-color: var(--white-color);
 }
 
+
+/* splash, with text aligned to center */
+
 .splash-div {
     display: inline-block;
     text-align: center;
     margin-bottom: 15vh;
 }
+
+
+/* display is set to inline-block so that the divs are centered in the body */
 
 .content-block {
     display: inline-block;
@@ -276,6 +371,9 @@ button:active {
     margin-bottom: 15vh;
 }
 
+
+/* adding maring to the bottom of p in content block, so that there is equal spacing at the top and bottom of the content divs */
+
 .content-block p {
     display: inline-block;
     width: 60%;
@@ -283,23 +381,38 @@ button:active {
     margin-bottom: 6em;
 }
 
+
+/* removing margin for certain content paragrphs */
+
 .content-para {
     margin: 0;
 }
 
+
+/* adding margin to bottom of content block buttons for spacing */
+
 .content-block button {
     margin-bottom: 6em;
 }
+
+
+/* centering content block tables */
 
 .content-block table {
     display: inline-block;
     padding: 1em;
 }
 
+
+/* removing margin of headers in table */
+
 table h3 {
     margin: 0;
     padding: 0;
 }
+
+
+/* changing div color of the game info div */
 
 .game-info-block {
     border-color: var(--pink-color);
@@ -308,6 +421,9 @@ table h3 {
 .game-info-block h3 {
     color: var(--pink-color);
 }
+
+
+/* modal wrapper styling */
 
 .modal {
     display: none;
@@ -324,6 +440,9 @@ table h3 {
     text-align: center;
 }
 
+
+/* modal content styling */
+
 .modal-content {
     display: inline-block;
     background-color: var(--white-color);
@@ -333,6 +452,12 @@ table h3 {
     text-align: center;
     border: none;
 }
+
+
+/* 
+below, all the styling is defined for different game actors
+as classes, these are assgined to table cells as generated in the game js file
+*/
 
 .background {
     background: var(--blue-color);
@@ -346,11 +471,11 @@ table h3 {
 }
 
 .RedBlock {
-    background: #ff6464;
+    background: var(--pink-color);
 }
 
 .wall {
-    background: #ffffff;
+    background: var(--white-color);
 }
 
 .actor {
@@ -372,6 +497,9 @@ table h3 {
 .player {
     background: var(--black-color);
 }
+
+
+/* when player loses or wins */
 
 .lost .player {
     background: #a04040;
