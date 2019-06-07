@@ -596,7 +596,7 @@ var Player = class Player { // player variable defined by the player class
     }
 }
 
-Player.prototype.size = new Vector(1, 1.6); // the size is defined as a prototype outside the class for a more efficient method to create and access this value
+Player.prototype.size = new Vector(0.8, 1.5); // the size is defined as a prototype outside the class for a more efficient method to create and access this value
 
 var RedBlockSpeed = 2.5; // the speed of the red blocks, stored as changeable variables (needs to be changes in the case of powerup usage)
 
@@ -889,7 +889,7 @@ RedBlock.prototype.update = function(time, state) { // the redblocks are updated
 };
 
 function resetVariables() {
-    Player.prototype.size = new Vector(1, 1.6); // the player size is reset
+    Player.prototype.size = new Vector(0.8, 1.5); // the player size is reset
     RedBlockSpeed = 2.5;
     monsterSpeed = RedBlockSpeed * 2.5; // the monster and redblock seed are reset
     playerGravity = 38;
